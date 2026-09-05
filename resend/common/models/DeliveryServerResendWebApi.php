@@ -158,7 +158,12 @@ class DeliveryServerResendWebApi extends DeliveryServer
     {
         $placeholders = [
             'password' => 're_xxxxxxxxxxxxxxxxxxxxxxxx',
-            'username' => 'whsec_xxxxxxxxxxxxxxxxxxxxxxxx',
+            // Underscores are deliberate. GitHub's secret scanner matches the
+            // "whsec" prefix followed by a run of alphanumerics, because
+            // Stripe uses the same prefix for its webhook signing secrets. A
+            // placeholder of that shape raises a false positive alert, so the
+            // underscores here exist purely to break the match.
+            'username' => 'whsec_your_secret_here',
         ];
 
         return CMap::mergeArray(parent::attributePlaceholders(), $placeholders);
